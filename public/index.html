@@ -42,6 +42,7 @@
     const speedButton = document.getElementById('speedButton');
     let cat = null;
     let speedMultiplier = 1;
+    let isMoving = false; // 움직이는 상태 여부
 
     createCatButton.addEventListener('click', () => {
       if (cat) {
@@ -50,6 +51,8 @@
       const randomX = Math.random() * (leftContainer.offsetWidth - 50);
       const randomY = Math.random() * (leftContainer.offsetHeight - 50);
       cat = createCat(randomX, randomY);
+      // 시작 시 stopping.gif로 변경
+      cat.src = './stopping.gif';
     });
 
     speedButton.addEventListener('click', () => {
@@ -61,6 +64,7 @@
 
     leftContainer.addEventListener('mousedown', (e) => {
       if (cat) {
+        isMoving = true; // 움직이는 상태로 설정
         const catRect = cat.getBoundingClientRect();
         const centerX = catRect.width / 2;
         const centerY = catRect.height / 2;
@@ -78,13 +82,23 @@
           cat.classList.add('flipped');
         }
 
+        // 클릭 시 movingcat.gif로 변경
+        cat.src = './movingcat.gif';
         moveCat(cat, x, y);
+      }
+    });
+
+    leftContainer.addEventListener('transitionend', () => {
+      if (isMoving) {
+        isMoving = false;
+        // 도달했을 때 stopping.gif로 변경
+        cat.src = './stopping.gif';
       }
     });
 
     function createCat(x, y) {
       const cat = document.createElement('img');
-      cat.src = './movingcat.gif'; // 고양이 이미지 경로
+      cat.src = './stopping.gif'; // 초기에 정지 상태 이미지로 설정
       cat.className = 'cat';
       leftContainer.appendChild(cat);
       cat.style.left = x + 'px';
@@ -93,6 +107,7 @@
     }
 
     function moveCat(cat, x, y) {
+      if (!isMoving) return; // 움직이지 않는 상태라면 함수 종료
       const catRect = cat.getBoundingClientRect();
       const centerX = catRect.width / 2;
       const centerY = catRect.height / 2;
