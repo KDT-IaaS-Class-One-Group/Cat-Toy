@@ -21,6 +21,10 @@
       position: absolute;
       width: 50px;
       height: 50px;
+      transition: transform 0.2s; /* 변환 애니메이션 설정 */
+    }
+    .flipped { /* 반전된 이미지에 대한 스타일 */
+      transform: scaleX(-1);
     }
   </style>
 </head>
@@ -62,11 +66,18 @@
         const centerY = catRect.height / 2;
         let x = e.clientX - leftContainer.getBoundingClientRect().left - centerX;
         let y = e.clientY - leftContainer.getBoundingClientRect().top - centerY;
-        
+
         // 컨테이너 경계 안으로 제한
         x = Math.max(centerX, Math.min(leftContainer.offsetWidth - centerX, x));
         y = Math.max(centerY, Math.min(leftContainer.offsetHeight - centerY, y));
-        
+
+        // 이미지를 좌우반전하는 클래스 추가/제거
+        if (x < catRect.left + centerX) {
+          cat.classList.remove('flipped');
+        } else {
+          cat.classList.add('flipped');
+        }
+
         moveCat(cat, x, y);
       }
     });
@@ -85,7 +96,7 @@
       const catRect = cat.getBoundingClientRect();
       const centerX = catRect.width / 2;
       const centerY = catRect.height / 2;
-      
+
       // 컨테이너 경계 안으로 제한
       x = Math.max(centerX, Math.min(leftContainer.offsetWidth - centerX, x));
       y = Math.max(centerY, Math.min(leftContainer.offsetHeight - centerY, y));
@@ -100,7 +111,6 @@
       cat.style.left = x - centerX + 'px';
       cat.style.top = y - centerY + 'px';
     }
-  </script>
   </script>
 </body>
 </html>
