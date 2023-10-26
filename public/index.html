@@ -5,8 +5,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* 스타일링을 위한 CSS */
+        #container {
+          position: relative;
+          width: 100vw;
+          height: 100vh;
+          box-sizing: border-box;
+        }
+        .cat {
+          position: absolute;
+          width: 50px;
+          height: 50px;
+        }
+      </style>
 </head>
 <body>
-    
+    <div id="container"></div>
+    <script>
+      const container = document.getElementById('container');
+      let cat = null;
+  
+      container.addEventListener('mousedown', (e) => {
+        if (cat) {
+          moveCat(cat, e.clientX, e.clientY);
+        } else {
+          cat = createCat(e.clientX, e.clientY);
+        }
+      });
+  
+      function createCat(x, y) {
+        const cat = document.createElement('img');
+        cat.src = 'cat-image.jpg'; // 고양이 이미지 경로
+        cat.className = 'cat';
+        container.appendChild(cat);
+  
+        // 고양이를 랜덤한 위치에 배치
+        const randomX = Math.random() * (container.offsetWidth - 50);
+        const randomY = Math.random() * (container.offsetHeight - 50);
+        cat.style.left = randomX + 'px';
+        cat.style.top = randomY + 'px';
+  
+        // 클릭한 위치로 고양이가 부드럽게 이동
+        moveCat(cat, x, y);
+  
+        return cat;
+      }
+  
+      function moveCat(cat, x, y) {
+        const deltaX = x - parseInt(cat.style.left);
+        const deltaY = y - parseInt(cat.style.top);
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  
+        const duration = distance / 250; // 이동하는 데 걸리는 시간 (조절 가능)
+  
+        cat.style.transition = `left ${duration}s, top ${duration}s`;
+        cat.style.left = x + 'px';
+        cat.style.top = y + 'px';
+      }
+    </script>
 </body>
 </html>
