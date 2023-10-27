@@ -9,6 +9,7 @@
     height: 800px;
     border: 1px solid black;
     overflow: hidden; /* 컨테이너 내에서 벗어나지 않도록 */
+    background-color: #fff;
   }
   #right-container {
     width: 200px;
