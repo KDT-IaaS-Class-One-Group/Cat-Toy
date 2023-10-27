@@ -5,6 +5,7 @@
     /* 스타일링을 위한 CSS */
     #container {
       display: flex;
+      padding-left: 350px;
     }
     #left-container {
       position: relative;
@@ -41,7 +42,7 @@
     const createCatButton = document.getElementById('createCatButton');
     const speedButton = document.getElementById('speedButton');
     let cat = null;
-    let speedMultiplier = 1;
+    let speedMultiplier = 0.1;
     let isMoving = false; // 움직이는 상태 여부
 
     createCatButton.addEventListener('click', () => {
@@ -66,17 +67,17 @@
       if (cat) {
         isMoving = true; // 움직이는 상태로 설정
         const catRect = cat.getBoundingClientRect();
-        const centerX = catRect.width / 2;
-        const centerY = catRect.height / 2;
-        let x = e.clientX - leftContainer.getBoundingClientRect().left - centerX;
-        let y = e.clientY - leftContainer.getBoundingClientRect().top - centerY;
+        let x = e.clientX - leftContainer.getBoundingClientRect().left;
+        let y = e.clientY - leftContainer.getBoundingClientRect().top;
 
         // 컨테이너 경계 안으로 제한
-        x = Math.max(centerX, Math.min(leftContainer.offsetWidth - centerX, x));
-        y = Math.max(centerY, Math.min(leftContainer.offsetHeight - centerY, y));
+        x = Math.max(0, Math.min(leftContainer.offsetWidth - catRect.width, x));
+        y = Math.max(0, Math.min(leftContainer.offsetHeight - catRect.height, y));
+
+        console.log(catRect.left-x,catRect.left,x);
 
         // 이미지를 좌우반전하는 클래스 추가/제거
-        if (x < catRect.left + centerX) {
+        if (x < catRect.left) {
           cat.classList.remove('flipped');
         } else {
           cat.classList.add('flipped');
@@ -109,22 +110,16 @@
     function moveCat(cat, x, y) {
       if (!isMoving) return; // 움직이지 않는 상태라면 함수 종료
       const catRect = cat.getBoundingClientRect();
-      const centerX = catRect.width / 2;
-      const centerY = catRect.height / 2;
 
       // 컨테이너 경계 안으로 제한
-      x = Math.max(centerX, Math.min(leftContainer.offsetWidth - centerX, x));
-      y = Math.max(centerY, Math.min(leftContainer.offsetHeight - centerY, y));
+      x = Math.max(0, Math.min(leftContainer.offsetWidth - catRect.width, x));
+      y = Math.max(0, Math.min(leftContainer.offsetHeight - catRect.height, y));
 
-      const deltaX = x - (catRect.left + centerX);
-      const deltaY = y - (catRect.top + centerY);
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-      const duration = (distance / 100) / speedMultiplier;
+      const duration = 0.2; // 이동 애니메이션의 기본 지속 시간
 
       cat.style.transition = `left ${duration}s, top ${duration}s`;
-      cat.style.left = x - centerX + 'px';
-      cat.style.top = y - centerY + 'px';
+      cat.style.left = x + 'px';
+      cat.style.top = y + 'px';
     }
   </script>
 </body>
