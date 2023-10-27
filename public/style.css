@@ -35,8 +35,18 @@
     margin-bottom: 5px;
   }
   #createCatButton {
-    order: 2; /* 속도 조절 버튼 아래로 배치 */
+    order: 3; /* 속도 조절 버튼 아래로 배치 */
   }
-  #speedButton {
+  input {
     order: 1; /* 고양이 생성 버튼 위로 배치 */
   }
+  label {
+    order : 2;
+  }
+  /* 사용할 수 없는 코드 */
+  /* 크롬 및 엣지에서 스핀 버튼을 항상 표시 */
+  /* input[type="number"]::-webkit-inner-spin-button, */
+  /* input[type="number"]::-webkit-outer-spin-button { */
+    /* -webkit-appearance: textfield; */
+    /* appearance: textfield; */
+  /* } */
