@@ -23,6 +23,8 @@
     let speedMultiplier = 0.1;
     let isMoving = false; // 움직이는 상태 여부
 
+    const leftMargin = 350; // css에 입력된 마진을 입력해 정확한 상대값이 출력되도록
+
     createCatButton.addEventListener('click', () => {
       if (cat) {
         leftContainer.removeChild(cat);
@@ -52,10 +54,11 @@
         x = Math.max(0, Math.min(leftContainer.offsetWidth - catRect.width, x));
         y = Math.max(0, Math.min(leftContainer.offsetHeight - catRect.height, y));
 
-        console.log(catRect.left-x,catRect.left,x);
+        // console.log(catRect.left-x,catRect.left,x);
+        console.log(catRect.left);
 
         // 이미지를 좌우반전하는 클래스 추가/제거
-        if (x < catRect.left) {
+        if (x < catRect.left-leftMargin) {
           cat.classList.remove('flipped');
         } else {
           cat.classList.add('flipped');
