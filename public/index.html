@@ -99,10 +99,14 @@
             cat.style.top = y + 'px';
         }
         
-        // 마우스가 컨테이너 위에 올라갈 때 커서 이미지를 변경합니다.
+        // 마우스가 컨테이너 안으로 들어갈 때 커서 변경
         leftContainer.addEventListener('mouseenter', () => {
-          leftContainer.style.cursor = 'url("./churs.png"), auto';
-
+            leftContainer.addEventListener('mousedown', () => {
+                leftContainer.style.cursor = 'url("./churs.png"), auto';          
+            })
+            leftContainer.addEventListener('mouseup', () => {
+                leftContainer.style.cursor = 'auto';
+            })
         });
 
         // 마우스가 컨테이너 밖으로 나갈 때 기본 커서 스타일로 복원합니다.
