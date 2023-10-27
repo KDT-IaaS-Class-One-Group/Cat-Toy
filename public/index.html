@@ -5,103 +5,98 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <div id="container">
-    <div id="left-container"></div>
-    <div id="right-container">
-      <button id="createCatButton">고양이 생성</button>
-      <button id="speedButton">속도 조절</button>
+    <div id="container">
+        <div id="left-container"></div>
+        <div id="right-container">
+            <button id="createCatButton">고양이 생성</button>
+            <label for="speedButton">속도 조절</label>
+            <input type="number" id="speedButton" value="2.5" step="0.1">
+        </div>
     </div>
-  </div>
-  <script>
-    const leftContainer = document.getElementById('left-container');
-    const createCatButton = document.getElementById('createCatButton');
-    const speedButton = document.getElementById('speedButton');
-    let cat = null;
-    let speedMultiplier = 0.1;
-    let isMoving = false; // 움직이는 상태 여부
+    <script>
+        const leftContainer = document.getElementById('left-container');
+        const createCatButton = document.getElementById('createCatButton');
+        const speedInput = document.getElementById('speedButton');
+        let cat = null;
+        let speedMultiplier = 2.5; // 초기 속도 설정
+        let isMoving = false; // 움직이는 상태 여부
 
-    const leftMargin = 350; // css에 입력된 마진을 입력해 정확한 상대값이 출력되도록
+        const leftMargin = 350; // css에 입력된 마진을 입력해 정확한 상대값이 출력되도록
 
-    createCatButton.addEventListener('click', () => {
-      if (cat) {
-        leftContainer.removeChild(cat);
-      }
-      const randomX = Math.random() * (leftContainer.offsetWidth - 50);
-      const randomY = Math.random() * (leftContainer.offsetHeight - 50);
-      cat = createCat(randomX, randomY);
-      // 시작 시 stopping.gif로 변경
-      cat.src = './stopping.gif';
-    });
+        createCatButton.addEventListener('click', () => {
+            if (cat) {
+                leftContainer.removeChild(cat);
+            }
+            const randomX = Math.random() * (leftContainer.offsetWidth - 50);
+            const randomY = Math.random() * (leftContainer.offsetHeight - 50);
+            cat = createCat(randomX, randomY);
+            // 시작 시 stopping.gif로 변경
+            cat.src = './stopping.gif';
+        });
 
-    speedButton.addEventListener('click', () => {
-      speedMultiplier *= 2;
-      if (speedMultiplier > 4) {
-        speedMultiplier = 1;
-      }
-    });
+        speedInput.addEventListener('input', () => {
+            speedMultiplier = parseFloat(speedInput.value);
+        });
 
-    leftContainer.addEventListener('mousedown', (e) => {
-      if (cat) {
-        isMoving = true; // 움직이는 상태로 설정
-        const catRect = cat.getBoundingClientRect();
-        let x = e.clientX - leftContainer.getBoundingClientRect().left;
-        let y = e.clientY - leftContainer.getBoundingClientRect().top;
+        leftContainer.addEventListener('mousedown', (e) => {
+            if (cat) {
+                isMoving = true; // 움직이는 상태로 설정
+                const catRect = cat.getBoundingClientRect();
+                let x = e.clientX - leftContainer.getBoundingClientRect().left;
+                let y = e.clientY - leftContainer.getBoundingClientRect().top;
 
-        // 컨테이너 경계 안으로 제한
-        x = Math.max(0, Math.min(leftContainer.offsetWidth - catRect.width, x));
-        y = Math.max(0, Math.min(leftContainer.offsetHeight - catRect.height, y));
+                // 컨테이너 경계 안으로 제한
+                x = Math.max(0, Math.min(leftContainer.offsetWidth - catRect.width, x));
+                y = Math.max(0, Math.min(leftContainer.offsetHeight - catRect.height, y));
 
-        // console.log(catRect.left-x,catRect.left,x);
-        console.log(catRect.left);
+                // 이미지를 좌우반전하는 클래스 추가/제거
+                if (x < catRect.left - leftMargin) {
+                    cat.classList.remove('flipped');
+                } else {
+                    cat.classList.add('flipped');
+                }
 
-        // 이미지를 좌우반전하는 클래스 추가/제거
-        if (x < catRect.left-leftMargin) {
-          cat.classList.remove('flipped');
-        } else {
-          cat.classList.add('flipped');
+                // 클릭 시 movingcat.gif로 변경
+                cat.src = './movingcat.gif';
+                moveCat(cat, x, y);
+            }
+        });
+
+        leftContainer.addEventListener('transitionend', () => {
+            if (isMoving) {
+                isMoving = false;
+                // 도달했을 때 stopping.gif로 변경
+                cat.src = './stopping.gif';
+            }
+        });
+
+        function createCat(x, y) {
+            const cat = document.createElement('img');
+            cat.src = './stopping.gif'; // 초기에 정지 상태 이미지로 설정
+            cat.className = 'cat';
+            leftContainer.appendChild(cat);
+            cat.style.left = x + 'px';
+            cat.style.top = y + 'px';
+            return cat;
         }
 
-        // 클릭 시 movingcat.gif로 변경
-        cat.src = './movingcat.gif';
-        moveCat(cat, x, y);
-      }
-    });
+        function moveCat(cat, x, y) {
+            if (!isMoving) return; // 움직이지 않는 상태라면 함수 종료
+            const catRect = cat.getBoundingClientRect();
 
-    leftContainer.addEventListener('transitionend', () => {
-      if (isMoving) {
-        isMoving = false;
-        // 도달했을 때 stopping.gif로 변경
-        cat.src = './stopping.gif';
-      }
-    });
+            // 컨테이너 경계 안으로 제한
+            x = Math.max(0, Math.min(leftContainer.offsetWidth - catRect.width, x));
+            y = Math.max(0, Math.min(leftContainer.offsetHeight - catRect.height, y));
 
-    function createCat(x, y) {
-      const cat = document.createElement('img');
-      cat.src = './stopping.gif'; // 초기에 정지 상태 이미지로 설정
-      cat.className = 'cat';
-      leftContainer.appendChild(cat);
-      cat.style.left = x + 'px';
-      cat.style.top = y + 'px';
-      return cat;
-    }
+            const duration = 2.5 / speedMultiplier; // 이동 애니메이션의 지속 시간을 조절하여 속도 변경
 
-    function moveCat(cat, x, y) {
-      if (!isMoving) return; // 움직이지 않는 상태라면 함수 종료
-      const catRect = cat.getBoundingClientRect();
-
-      // 컨테이너 경계 안으로 제한
-      x = Math.max(0, Math.min(leftContainer.offsetWidth - catRect.width, x));
-      y = Math.max(0, Math.min(leftContainer.offsetHeight - catRect.height, y));
-
-      const duration = 0.2; // 이동 애니메이션의 기본 지속 시간
-
-      cat.style.transition = `left ${duration}s, top ${duration}s`;
-      cat.style.left = x + 'px';
-      cat.style.top = y + 'px';
-    }
-  </script>
+            cat.style.transition = `left ${duration}s, top ${duration}s`;
+            cat.style.left = x + 'px';
+            cat.style.top = y + 'px';
+        }
+    </script>
 </body>
 </html>
