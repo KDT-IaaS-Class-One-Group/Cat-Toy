@@ -18,6 +18,7 @@
     </div>
     <script>
         const leftContainer = document.getElementById('left-container');
+        console.dir(leftContainer);
         const createCatButton = document.getElementById('createCatButton');
         const speedInput = document.getElementById('speedButton');
         let cat = null;
@@ -97,6 +98,17 @@
             cat.style.left = x + 'px';
             cat.style.top = y + 'px';
         }
+        
+        // 마우스가 컨테이너 위에 올라갈 때 커서 이미지를 변경합니다.
+        leftContainer.addEventListener('mouseenter', () => {
+          leftContainer.style.cursor = 'url("./churs.png"), auto';
+
+        });
+
+        // 마우스가 컨테이너 밖으로 나갈 때 기본 커서 스타일로 복원합니다.
+        leftContainer.addEventListener('mouseleave', () => {
+            leftContainer.style.cursor = 'auto';
+        });
     </script>
 </body>
 </html>
