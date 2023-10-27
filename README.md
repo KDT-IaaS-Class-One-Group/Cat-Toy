@@ -8,4 +8,8 @@ seungmin21 : https://github.com/seungmin21
 ChoiEunCheol : https://github.com/ChoiEunCheol
 # 사용방법
 localhost를 이용하고 싶다면 express가 설치되어 있어야 합니다.
+
+터미널에 다음 코드를 입력합니다.
+
 `npm install express --save`
+---
