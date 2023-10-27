@@ -12,10 +12,10 @@ ChoiEunCheol : https://github.com/ChoiEunCheol
 > - localhost를 이용한다면 express가 설치되어 있어야 합니다.
   
 >> 터미널에 다음 코드를 입력합니다.
->>
->> 설치가 완료되면 터미널에 `node app.js`를 입력합니다.
-
+ 
 >> `npm install express --save`
+
+>> 설치가 완료되면 터미널에 `node app.js`를 입력합니다.
 
 > - firebase를 이용한다면 다음 url을 입력합니다.
   
