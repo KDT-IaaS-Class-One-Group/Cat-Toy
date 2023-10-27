@@ -13,6 +13,9 @@
   #right-container {
     width: 200px;
     padding: 10px;
+    /* flex set */
+    display: flex;
+    flex-direction: column-reverse;
   }
   .cat {
     position: absolute;
@@ -27,6 +30,7 @@
     border-radius: 15px;
     height: 80px;
   }
-  .margin-bottom-5 {
+  #createCatButton {
     margin-bottom: 5px;
   }
+  
