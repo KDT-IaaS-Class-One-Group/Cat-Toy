@@ -33,4 +33,9 @@
   #createCatButton {
     margin-bottom: 5px;
   }
-  
+  #createCatButton {
+    order: 2; /* 속도 조절 버튼 아래로 배치 */
+  }
+  #speedButton {
+    order: 1; /* 고양이 생성 버튼 위로 배치 */
+  }
