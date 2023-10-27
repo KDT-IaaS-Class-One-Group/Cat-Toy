@@ -23,3 +23,10 @@
   .flipped { /* 반전된 이미지에 대한 스타일 */
     transform: scaleX(-1);
   }
+  button {
+    border-radius: 15px;
+    height: 80px;
+  }
+  .margin-bottom-5 {
+    margin-bottom: 5px;
+  }
