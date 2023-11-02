@@ -16,9 +16,9 @@
             <input type="number" id="speedButton" value="2.5" step="0.1">
         </div>
     </div>
-    <script>
+    <script type="module">
+        import { createCat } from './test.js';
         const leftContainer = document.getElementById('left-container');
-        console.dir(leftContainer);
         const createCatButton = document.getElementById('createCatButton');
         const speedInput = document.getElementById('speedButton');
         let cat = null;
@@ -73,16 +73,6 @@
                 cat.src = './stopping.gif';
             }
         });
-
-        function createCat(x, y) {
-            const cat = document.createElement('img');
-            cat.src = './stopping.gif'; // 초기에 정지 상태 이미지로 설정
-            cat.className = 'cat';
-            leftContainer.appendChild(cat);
-            cat.style.left = x + 'px';
-            cat.style.top = y + 'px';
-            return cat;
-        }
 
         function moveCat(cat, x, y) {
             if (!isMoving) return; // 움직이지 않는 상태라면 함수 종료
